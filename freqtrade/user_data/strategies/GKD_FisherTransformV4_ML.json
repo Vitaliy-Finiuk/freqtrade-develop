@@ -1,0 +1,48 @@
+{
+  "strategy_name": "GKD_FisherTransformV4_ML",
+  "params": {
+    "roi": {
+      "0": 0.266,
+      "99": 0.129,
+      "188": 0.03,
+      "276": 0
+    },
+    "stoploss": {
+      "stoploss": -0.341
+    },
+    "trailing": {
+      "trailing_stop": true,
+      "trailing_stop_positive": 0.233,
+      "trailing_stop_positive_offset": 0.239,
+      "trailing_only_offset_is_reached": false
+    },
+    "max_open_trades": {
+      "max_open_trades": 3
+    },
+    "buy": {
+      "atr_period": 21,
+      "baseline_period": 10,
+      "fisher_buy_threshold": 1.31,
+      "fisher_period": 13,
+      "fisher_smooth_long": 4,
+      "fisher_smooth_short": 7,
+      "goldie_locks": 2.7,
+      "ml_adaptation_rate": 0.14,
+      "ml_confidence_threshold": 0.5,
+      "ml_signal_threshold": 0.21
+    },
+    "sell": {
+      "ATR_Multip": 1.4,
+      "ATR_SL_long_Multip": 2.4,
+      "ATR_SL_short_Multip": 5.1,
+      "fisher_long_exit": 0.209,
+      "fisher_sell_threshold": 2.89,
+      "fisher_short_exit": 0.809,
+      "rr_long": 3.1,
+      "rr_short": 1.4
+    },
+    "protection": {}
+  },
+  "ft_stratparam_v": 1,
+  "export_time": "2025-10-24 00:03:27.266515+00:00"
+}
