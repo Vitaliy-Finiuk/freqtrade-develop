@@ -115,7 +115,11 @@ class MLOptimizer:
         self.scaler = None
         self.study = None
         self.performance_history = []
-        
+        print("ML Optimizer initialized")
+        print("Strategy Name:", strategy_name)
+        print("Model Path:", self.model_path)
+        print("Scaler Path:", self.scaler_path)
+        print("Study Path:", self.study_path)
         # Ensure directory exists
         os.makedirs("user_data/strategies/ml_models", exist_ok=True)
         
@@ -673,6 +677,7 @@ class MLOptimizer:
             EnhancedLogger.log_error(f"Model update error: {e}")
 
 
+
 class GKD_FisherTransformV4_ML(IStrategy):
     # Strategy parameters
     timeframe = "15m"
@@ -711,50 +716,50 @@ class GKD_FisherTransformV4_ML(IStrategy):
         EnhancedLogger.log_parameter("ML Optimization", self.enable_ml_optimization, "🤖")
 
     buy_params = {
-        "atr_period": 10,
-        "baseline_period": 11,
-        "fisher_buy_threshold": 2.37,
-        "fisher_period": 13,
-        "fisher_smooth_long": 8,
-        "fisher_smooth_short": 4,
-        "goldie_locks": 2.41,
-        "ml_adaptation_rate": 0.25,
+        "atr_period": 19,
+        "baseline_period": 18,
+        "fisher_buy_threshold": 1.3,
+        "fisher_period": 12,
+        "fisher_smooth_long": 7,
+        "fisher_smooth_short": 5,
+        "goldie_locks": 1.69,
+        "ml_adaptation_rate": 0.19,
         "ml_confidence_threshold": 0.5,
-        "ml_signal_threshold": 0.2,
+        "ml_signal_threshold": 0.18,
     }
 
     # Sell hyperspace params:
     sell_params = {
-        "ATR_Multip": 4.2,
-        "ATR_SL_long_Multip": 2.4,
-        "ATR_SL_short_Multip": 5.0,
-        "fisher_long_exit": 0.505,
-        "fisher_short_exit": -0.533,
-        "rr_long": 3.4,
+        "ATR_Multip": 1.7,
+        "ATR_SL_long_Multip": 6.0,
+        "ATR_SL_short_Multip": 5.8,
+        "fisher_long_exit": 0.696,
+        "fisher_short_exit": 0.44,
+        "rr_long": 3.2,
         "rr_short": 3.6,
         "fisher_sell_threshold": 2.89,  # value loaded from strategy
     }
 
     # ROI table:
     minimal_roi = {
-        "0": 0.308,
-        "70": 0.082,
-        "134": 0.039,
-        "204": 0
+        "0": 0.313,
+        "106": 0.112,
+        "240": 0.035,
+        "357": 0
     }
 
     # Stoploss:
-    stoploss = -0.1
+    stoploss = -0.213
 
     # Trailing stop:
-    trailing_stop = True
-    trailing_stop_positive = 0.056
-    trailing_stop_positive_offset = 0.083
-    trailing_only_offset_is_reached = True
+    trailing_stop = True  # value loaded from strategy
+    trailing_stop_positive = 0.233  # value loaded from strategy
+    trailing_stop_positive_offset = 0.239  # value loaded from strategy
+    trailing_only_offset_is_reached = False  # value loaded from strategy
 
 
     # Max Open Trades:
-    max_open_trades = 5  # value loaded from strategy
+    max_open_trades = 5
 
 
     # ML-enhanced parameters with dynamic optimization
@@ -823,7 +828,8 @@ class GKD_FisherTransformV4_ML(IStrategy):
             
             # Create pair-specific optimizer if doesn't exist
             if pair not in self.ml_optimizers:
-                self.ml_optimizers[pair] = MLOptimizer(f"fisher_transform_v4_{pair.replace('/', '_')}")
+                pair_safe = pair.replace('/', '_').replace(':', '_')  # Убрать И слэш И двоеточие
+                self.ml_optimizers[pair] = MLOptimizer(f"fisher_transform_v4_{pair_safe}")
                 EnhancedLogger.log_success(f"Created ML optimizer for {pair}", "🆕")
             
             ml_optimizer = self.ml_optimizers[pair]
